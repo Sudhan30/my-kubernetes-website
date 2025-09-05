@@ -3,10 +3,17 @@ kind: Ingress
 metadata:
   name: my-website-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    # Tell cert-manager to use our new ClusterIssuer
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  # This section configures TLS
+  tls:
+  - hosts:
+    - blog.sudharsana.dev
+    # cert-manager will create a secret with this name to store the certificate
+    secretName: blog-sudharsana-dev-tls
   rules:
-  - host: "your-website-domain.com" # IMPORTANT: Replace this with your domain later
+  - host: "blog.sudharsana.dev"
     http:
       paths:
       - path: /
